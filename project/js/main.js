@@ -5,7 +5,14 @@ function addMessage(postTitle,postBody){
   }
   var database = firebase.database().ref("posts");
   var newPostRef = database.push();
-  newPostRef.set(postData);
+  newPostRef.set(postData, function(error) {
+    if (error) {
+      // The write failed...
+    } else {
+      // Data saved successfully!
+      window.location.reload();
+    }
+  });
 }
 function handleMessageFormSubmit(){
   var postTitle=$("#post-title").val();
