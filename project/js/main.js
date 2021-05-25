@@ -1,3 +1,4 @@
+
 function addMessage(postTitle,postBody){
   var postData={
     title:postTitle,
@@ -20,6 +21,18 @@ function handleMessageFormSubmit(){
   console.log(postTitle);
 
   addMessage(postTitle,postBody);
+}
+
+function getPosts(){
+  return firebase.database().ref("posts").once('value').then(function(snapshot) {
+      var posts = snapshot.val();
+      console.log(posts);
+
+      for (var postKey in posts){
+        var post=posts[postKey];
+        $("#post-listing").append("<div>"+post.title+" - "+post.body+"</div>");
+      }
+  });
 }
 
 function handleSignIn(){
@@ -51,7 +64,8 @@ function handleSignIn(){
 
 
 $(document).ready(function(){
-  getWeather();
+  // getWeather();
+  getPosts();
 })
 
 function getWeather(searchQuery) {
